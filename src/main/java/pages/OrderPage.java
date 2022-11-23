@@ -1,14 +1,12 @@
-import org.hamcrest.MatcherAssert;
+package pages;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.hamcrest.CoreMatchers.containsString;
-
 public class OrderPage {
     private static WebDriver driver;
-
     private  By orderButton = By.xpath(".//button[1][text()='Заказать']");;
     //Локатор поиска кнопки заказа вверху страницы
     private By cookieButton = By.id("rcc-confirm-button");
@@ -46,12 +44,9 @@ public class OrderPage {
     private  By orderSuccess = By.className("Order_ModalHeader__3FDaJ");
     //Локатор класса  "заказ оформлен" модального окна
 
-
     public OrderPage(WebDriver driver){
-
         this.driver = driver;
     }
-
 
     public void clickToOrderButtonHeader() {
         driver.findElement(orderButton).click();
@@ -62,9 +57,6 @@ public class OrderPage {
 //        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", orderButtonCenter);
         driver.findElement(orderButtonCenter).click();
     }
-
-
-
     public  void completionInputs(String firstName, String lastName, String address, String metro, String phone) {
         driver.findElement(completionFirstName).sendKeys(firstName);
         driver.findElement(completionLastName).sendKeys(lastName);
@@ -74,9 +66,7 @@ public class OrderPage {
         driver.findElement(completionFirstOptionMetroSelect).click();
     }
     public  void clickButtonFurther(){
-
         driver.findElement(buttonFurther).click();
-
     }
 
     public  void completionInputsPageTwo(String date, String comments) {
@@ -89,13 +79,10 @@ public class OrderPage {
         driver.findElement(сonfirmationYesOrderButton).click();
 
     }
-
-    public void successModalText() {
-        String successModalText = driver.findElement(orderSuccess).getText();
-        MatcherAssert.assertThat(successModalText, containsString("Заказ оформлен"));
+    public String modalText() {
+        return driver.findElement(orderSuccess).getText();
     }
     public void clickToCookiesModal() {
         driver.findElement(cookieButton).click();
     }
-
 }

@@ -1,3 +1,4 @@
+import constants.Url;
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -5,6 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 //import org.openqa.selenium.firefox.FirefoxDriver; //По заданию только гугл хром нужен на ревью. удалять не стала для возможности дебага
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import pages.OrderPage;
+import static org.hamcrest.CoreMatchers.containsString;
+import org.hamcrest.MatcherAssert;
 
 @RunWith(Parameterized.class)
 public class OrderScooterTest {
@@ -43,14 +47,14 @@ public class OrderScooterTest {
        driverChrome = new ChromeDriver();
       // driverFirefox = new FirefoxDriver();//По заданию только гугл хром нужен на ревью. удалять не стала для возможности дебага
 
-        this.initTestButtomHeader(driverChrome);
-      //  this.initTestButtomHeader(driverFirefox);//По заданию только гугл хром нужен на ревью. удалять не стала для возможности дебага
+        this.initTestButtonHeader(driverChrome);
+      //  this.initTestButtonHeader(driverFirefox);//По заданию только гугл хром нужен на ревью. удалять не стала для возможности дебага
     }
 
-    public void initTestButtomHeader(WebDriver driver) {
+    public void initTestButtonHeader(WebDriver driver) {
         OrderPage orderPage = new OrderPage(driver);
         //Создаю экземпляр класса
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(Url.SCOOTER_URL);
 
         // Открываю сайт
         orderPage.clickToOrderButtonHeader();
@@ -60,23 +64,25 @@ public class OrderScooterTest {
         orderPage.clickButtonFurther();
         //Кликаю далее
         orderPage.completionInputsPageTwo(date,comments);
-        orderPage.successModalText();
-    }
 
+        //Проверяем текст из модальки
+        String modalText = orderPage.modalText();
+        MatcherAssert.assertThat(modalText, containsString("Заказ оформлен"));
+    }
 
     @Test
     public void checkOrderScooterCenter() {
        driverChrome = new ChromeDriver();
        //driverFirefox = new FirefoxDriver(); //По заданию только гугл хром нужен на ревью. удалять не стала для возможности дебага
 
-        this.initTestButterCenter(driverChrome);
+        this.initTestButtonCenter(driverChrome);
        // this.initTestButterCenter(driverFirefox); //По заданию только гугл хром нужен на ревью. удалять не стала для возможности дебага
     }
 
-    public void initTestButterCenter(WebDriver driver) {
+    public void initTestButtonCenter(WebDriver driver) {
         OrderPage orderPageTwo = new OrderPage(driver);
         //Создаю экземпляр класса
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(Url.SCOOTER_URL);
         // Открываю сайт
         orderPageTwo.clickToCookiesModal();
         // Соглашаюсь с куками
@@ -87,7 +93,10 @@ public class OrderScooterTest {
         orderPageTwo.clickButtonFurther();
         //Кликаю далее
         orderPageTwo.completionInputsPageTwo(date,comments);
-        orderPageTwo.successModalText();
+
+        //Проверяем текст из модальки
+        String modalText = orderPageTwo.modalText();
+        MatcherAssert.assertThat(modalText, containsString("Заказ оформлен"));
     }
 
     @After

@@ -1,9 +1,12 @@
+import constants.Url;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.MainPage;
+
 import static org.junit.Assert.assertEquals;
 //import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -49,7 +52,7 @@ public class DropdownListCheckTest {
     //Метод запуска теста
 
     public void initTest(WebDriver driver) {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(Url.SCOOTER_URL);
         // Открываю сайт
 
         MainPage mainPage = new MainPage(driver);
@@ -66,7 +69,7 @@ public class DropdownListCheckTest {
         String text = mainPage.getTextFromAccordionDesc(elementID);
         // Получаю текст описания по ключу  списка (аккордеона)
 
-        assertEquals(text, checkedText);
+        assertEquals(checkedText,text);
         // Сравниваю полученный текст с тем текстом что мы ожидаем
     }
 
